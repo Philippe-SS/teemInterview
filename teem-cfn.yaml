@@ -282,4 +282,28 @@ Resources:
         HostedZoneId: !GetAtt LoadBalancer.CanonicalHostedZoneID
         DNSName: !GetAtt LoadBalancer.DNSName
 
+Outputs:
+  VpcId:
+    Description: The ID of the VPC
+    Value: !Ref VPC
+
+  PublicSubnetA:
+    Description: The ID of the public subnet A
+    Value: !Ref PublicSubnetA
+
+  PublicSubnetB:
+    Description: The ID of the public subnet B
+    Value: !Ref PublicSubnetB
+
+  PrivateSubnetA:
+    Description: The ID of the private subnet A
+    Value: !Ref PrivateSubnetA
+
+  PrivateSubnetB:
+    Description: The ID of the private subnet B
+    Value: !Ref PrivateSubnetB
+
+  LoadBalancerDNSName:
+    Description: The DNS name of the application load balancer
+    Value: !GetAtt LoadBalancer.DNSName
 
