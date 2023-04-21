@@ -1,6 +1,6 @@
 # Teem Multi Tier VPC CloudFormation Template
 
-This CloudFormation template creates a multi-tier VPC with public and private subnets, an Internet-facing Application Load Balancer, and an Auto Scaling Group.
+This CloudFormation template creates a multi-tier VPC with public and private subnets, an Internet-facing Application Load Balancer, and an Auto Scaling Group. A domain name set up in AWS Route 53 is required, and SSL certificate approval may be necessary via email.
 
 ## Getting Started
 
