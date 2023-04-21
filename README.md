@@ -20,7 +20,7 @@ To create the stack using the AWS CLI, follow these steps:
 2. Open your terminal and navigate to the folder containing the template file.
 3. Run the following command to create the stack:
 
-aws cloudformation create-stack --stack-name <stack-name> --template-body file://<template-file-name> --parameters ParameterKey=KeyName,ParameterValue=<keypair-name> --capabilities CAPABILITY_NAMED_IAM
+´aws cloudformation create-stack --stack-name <stack-name> --template-body file://<template-file-name> --parameters ParameterKey=KeyName,ParameterValue=<keypair-name> --capabilities CAPABILITY_NAMED_IAM´
     
 
 Replace `<stack-name>` with the name you want to give the CloudFormation stack, `<template-file-name>` with the name of the template file, and `<keypair-name>` with the name of an existing EC2 key pair that you want to use to enable SSH access to instances launched in the VPC.
