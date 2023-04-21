@@ -5,6 +5,12 @@ Parameters:
   KeyName:
     Description: Teem keypair 
     Type: AWS::EC2::KeyPair::KeyName
+  DomainName:
+    Description: The domain name for the application
+    Type: String
+  HostedZoneId:
+    Description: The Route53 hosted zone ID for the domain name
+    Type: String
   InstanceAMI:
     Description: The Amazon Linux 2 AMI ID for the EC2 instances
     Type: AWS::EC2::Image::Id
@@ -123,6 +129,10 @@ Resources:
           FromPort: 80
           ToPort: 80
           CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          CidrIp: 0.0.0.0/0
 
   WebAppSecurityGroup:
     Type: AWS::EC2::SecurityGroup
@@ -143,6 +153,8 @@ Resources:
       Subnets:
         - !Ref PublicSubnetA
         - !Ref PublicSubnetB
+      SecurityGroups:
+        - !Ref FrontEndSecurityGroup
 
   TargetGroup:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
@@ -152,6 +164,30 @@ Resources:
       VpcId: !Ref VPC
       TargetType: instance
 
+  HTTPSListener:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+      LoadBalancerArn: !Ref LoadBalancer
+      Port: 443
+      Protocol: HTTPS
+      Certificates:
+        - CertificateArn: !Ref SSLCertificate
+      DefaultActions:
+        - Type: forward
+          TargetGroupArn: !Ref TargetGroup
+
+  HTTPSListenerRule:
+    Type: AWS::ElasticLoadBalancingV2::ListenerRule
+    Properties:
+      Actions:
+        - Type: forward
+          TargetGroupArn: !Ref TargetGroup
+      Conditions:
+        - Field: host-header
+          Values:
+            - commandship.net
+      ListenerArn: !Ref HTTPSListener
+      Priority: 1
 
   InstanceProfile:
     Type: AWS::IAM::InstanceProfile
@@ -180,7 +216,7 @@ Resources:
     Type: AWS::AutoScaling::LaunchConfiguration
     Properties:
       IamInstanceProfile: !Ref InstanceProfile
-      ImageId: !Ref InstanceAMI
+      ImageId: !Ref InstanceAMI #Use a image with SSM agent installed
       InstanceType: t2.micro
       KeyName: !Ref KeyName
       SecurityGroups:
@@ -237,6 +273,24 @@ Resources:
       SecurityGroupIds:
         - !Ref WebAppSecurityGroup
 
+  SSLCertificate:
+    Type: AWS::CertificateManager::Certificate
+    Properties:
+      DomainName: !Ref DomainName
+      DomainValidationOptions:
+        - DomainName: !Ref DomainName
+          HostedZoneId: !Ref HostedZoneId
+
+  DNSRecord:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneId: !Ref HostedZoneId
+      Name: !Ref DomainName
+      Type: A
+      AliasTarget:
+        HostedZoneId: !GetAtt LoadBalancer.CanonicalHostedZoneID
+        DNSName: !GetAtt LoadBalancer.DNSName
+
 Outputs:
   VpcId:
     Description: The ID of the VPC
@@ -261,3 +315,4 @@ Outputs:
   LoadBalancerDNSName:
     Description: The DNS name of the application load balancer
     Value: !GetAtt LoadBalancer.DNSName
+
