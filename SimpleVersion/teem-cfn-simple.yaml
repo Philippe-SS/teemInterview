@@ -143,6 +143,8 @@ Resources:
       Subnets:
         - !Ref PublicSubnetA
         - !Ref PublicSubnetB
+      SeciurityGroups:
+        - !Ref FrontEndSecurityGroup
 
   TargetGroup:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
@@ -152,6 +154,15 @@ Resources:
       VpcId: !Ref VPC
       TargetType: instance
 
+  HTTPListener:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+      DefaultActions:
+        - Type: forward
+          TargetGroupArn: !Ref TargetGroup
+      LoadBalancerArn: !Ref LoadBalancer
+      Port: 80
+      Protocol: HTTP
 
   InstanceProfile:
     Type: AWS::IAM::InstanceProfile
