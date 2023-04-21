@@ -5,6 +5,15 @@ Parameters:
   KeyName:
     Description: Teem keypair 
     Type: AWS::EC2::KeyPair::KeyName
+  DomainName:
+    Description: The domain name for the application
+    Type: String
+  HostedZoneId:
+    Description: The Route53 hosted zone ID for the domain name
+    Type: String
+  InstanceAMI:
+    Description: The Amazon Linux 2 AMI ID for the EC2 instances
+    Type: AWS::EC2::Image::Id
 
 Resources:
   VPC:
@@ -207,7 +216,7 @@ Resources:
     Type: AWS::AutoScaling::LaunchConfiguration
     Properties:
       IamInstanceProfile: !Ref InstanceProfile
-      ImageId: ami-069aabeee6f53e7bf
+      ImageId: !Ref InstanceAMI #Use a image with SSM agent installed
       InstanceType: t2.micro
       KeyName: !Ref KeyName
       SecurityGroups:
@@ -267,16 +276,16 @@ Resources:
   SSLCertificate:
     Type: AWS::CertificateManager::Certificate
     Properties:
-      DomainName: commandship.net #Subistitute your own domain name here
+      DomainName: !Ref DomainName
       DomainValidationOptions:
-        - DomainName: commandship.net #Subistitute your own domain name here
-          HostedZoneId: Z01490271Q1SK87HY0D8F #Subistitute your own hosted zone ID here
+        - DomainName: !Ref DomainName
+          HostedZoneId: !Ref HostedZoneId
 
   DNSRecord:
     Type: AWS::Route53::RecordSet
     Properties:
-      HostedZoneId: Z01490271Q1SK87HY0D8F #Subsitute your own hosted zone ID here
-      Name: commandship.net #Subsitute your own domain name here
+      HostedZoneId: !Ref HostedZoneId
+      Name: !Ref DomainName
       Type: A
       AliasTarget:
         HostedZoneId: !GetAtt LoadBalancer.CanonicalHostedZoneID

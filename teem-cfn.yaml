@@ -5,6 +5,9 @@ Parameters:
   KeyName:
     Description: Teem keypair 
     Type: AWS::EC2::KeyPair::KeyName
+  InstanceAMI:
+    Description: The Amazon Linux 2 AMI ID for the EC2 instances
+    Type: AWS::EC2::Image::Id
 
 Resources:
   VPC:
@@ -177,7 +180,7 @@ Resources:
     Type: AWS::AutoScaling::LaunchConfiguration
     Properties:
       IamInstanceProfile: !Ref InstanceProfile
-      ImageId: ami-069aabeee6f53e7bf
+      ImageId: !Ref InstanceAMI
       InstanceType: t2.micro
       KeyName: !Ref KeyName
       SecurityGroups:
