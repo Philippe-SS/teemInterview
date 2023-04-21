@@ -11,6 +11,8 @@ To use this template, you will need an AWS account and basic knowledge of AWS Cl
 - AWS account
 - AWS CLI or AWS Console
 - Basic knowledge of AWS CloudFormation and AWS VPC
+- A domain name already set up in AWS Route 53
+- Approval of the SSL certificate on the email associated with the domain
 
 ### Installation
 
@@ -22,7 +24,6 @@ To create the stack using the AWS CLI, follow these steps:
 
 `aws cloudformation create-stack --stack-name <stack-name> --template-body file://<template-file-name> --parameters ParameterKey=KeyName,ParameterValue=<keypair-name> --capabilities CAPABILITY_NAMED_IAM`
     
-
 Replace `<stack-name>` with the name you want to give the CloudFormation stack, `<template-file-name>` with the name of the template file, and `<keypair-name>` with the name of an existing EC2 key pair that you want to use to enable SSH access to instances launched in the VPC.
 
 Alternatively, you can create the stack using the AWS Console. Follow these steps:
