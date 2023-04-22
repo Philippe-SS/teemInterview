@@ -2,6 +2,8 @@
 
 These CloudFormation templates create a multi-tier VPC with public and private subnets, an Internet-facing Application Load Balancer, a NAT Gateway with an associated Elastic IP, necessary routing configurations for the private subnets, and an Auto Scaling Group. Instances launched in the VPC will have a simple Nginx setup for demonstration purposes and will return a 'Healthy' response on the root path. There are two versions of the template: one with HTTPS configurations (teem-cfn.yaml) and one without HTTPS configurations (teem-cfn-simple.yaml).
 
+![Multi Tier VPC](./Architecture.png)
+
 ## Getting Started
 
 To use this template, you will need an AWS account and basic knowledge of AWS CloudFormation and AWS VPC.
