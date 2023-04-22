@@ -60,8 +60,6 @@ This section lists some known issues and their respective solutions or workaroun
 
 3. Incompatibility with Amazon Linux AMI 2023: This CloudFormation template is currently incompatible with the Amazon Linux AMI 2023. We are aware of this issue and are working on a solution. In the meantime, please use Amazon Linux 2 instead.
 
-Feel free to customize this section to include any other known issues or troubleshooting tips that are relevant to your CloudFormation template.
-
 #### Outputs
 
 The stack creates the following outputs:
@@ -75,7 +73,7 @@ The stack creates the following outputs:
 
 ## Contributing
 
-If you find any issues with this CloudFormation template or have suggestions for improvements, please open an issue or a pull request.
+If you find any issues with this CloudFormation template or have suggestions for improvements, please open an issue or a pull request. To report an issue, click the "Issues" tab in the GitHub repository and then click the "New issue" button. Describe the issue you encountered and provide any relevant details that will help us understand and resolve it.
 
 ## License
 
