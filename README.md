@@ -50,6 +50,18 @@ AWS Session Manager provides a secure and browser-based interactive shell for ac
 4. Click "Connect" at the top right of the page.
 5. Choose "Session Manager" and click "Connect".
 
+### Known Issues and Troubleshooting
+
+This section lists some known issues and their respective solutions or workarounds when using this CloudFormation template:
+
+1. Instances taking a while to become healthy: It might take some time for the instances launched by the Auto Scaling Group to become healthy and fully functional. Please be patient and allow sufficient time for the instances to start up and pass the health checks.
+
+2. VPC/NAT Gateway error when deleting and quickly recreating the stack: If you delete a stack and quickly create a new one, you might encounter VPC or NAT Gateway errors. This issue occurs because AWS takes some time to delete resources from the previous stack. To resolve this issue, wait a few minutes before attempting to create a new stack after deleting the previous one. If the issue persists, just delete the failed stack and create a new one.
+
+3. Incompatibility with Amazon Linux AMI 2023: This CloudFormation template is currently incompatible with the Amazon Linux AMI 2023. We are aware of this issue and are working on a solution. In the meantime, please use Amazon Linux 2 instead.
+
+Feel free to customize this section to include any other known issues or troubleshooting tips that are relevant to your CloudFormation template.
+
 #### Outputs
 
 The stack creates the following outputs:
