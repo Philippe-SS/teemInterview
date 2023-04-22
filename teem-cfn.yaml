@@ -216,7 +216,7 @@ Resources:
     Type: AWS::AutoScaling::LaunchConfiguration
     Properties:
       IamInstanceProfile: !Ref InstanceProfile
-      ImageId: !Ref InstanceAMI #Use a image with SSM agent installed
+      ImageId: !Ref InstanceAMI
       InstanceType: t2.micro
       KeyName: !Ref KeyName
       SecurityGroups:
